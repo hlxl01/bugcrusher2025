@@ -13,15 +13,14 @@
 
       body {
         background: #1a1a1a;
+        overflow-x: hidden;
       }
 
       .carousel-container {
         position: relative;
-        max-width: 1400px;
-        margin: 4rem auto;
-        border-radius: 20px;
+        width: 100%;
+        margin: 0 auto;
         overflow: hidden;
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
       }
 
       .carousel-track {
@@ -94,10 +93,6 @@
       }
 
       @media (max-width: 768px) {
-        .carousel-container {
-          margin: 2rem 1rem;
-        }
-
         .carousel-track {
           height: 400px;
         }
