@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Modern Carousel Banner</title>
+    <title>Minimal Carousel</title>
     <style>
       * {
         margin: 0;
@@ -13,7 +13,6 @@
 
       body {
         background: #1a1a1a;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       }
 
       .carousel-container {
@@ -40,56 +39,6 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        filter: brightness(0.8);
-      }
-
-      .slide-content {
-        position: absolute;
-        bottom: 10%;
-        left: 5%;
-        color: white;
-        max-width: 600px;
-        transform: translateY(30px);
-        opacity: 0;
-        transition: all 0.8s ease;
-      }
-
-      .carousel-slide.active .slide-content {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .slide-title {
-        font-size: 3.5rem;
-        margin-bottom: 1.5rem;
-        background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-      }
-
-      .slide-text {
-        font-size: 1.2rem;
-        line-height: 1.6;
-        margin-bottom: 2rem;
-        opacity: 0.9;
-      }
-
-      .cta-button {
-        padding: 15px 40px;
-        font-size: 1.1rem;
-        background: linear-gradient(45deg, #4ecdc4, #45b7af);
-        border: none;
-        border-radius: 30px;
-        color: white;
-        cursor: pointer;
-        transition: transform 0.3s, box-shadow 0.3s;
-        backdrop-filter: blur(5px);
-      }
-
-      .cta-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
       }
 
       .carousel-nav {
@@ -144,24 +93,6 @@
         right: 30px;
       }
 
-      .progress-bar {
-        position: absolute;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        height: 3px;
-        width: 200px;
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 2px;
-      }
-
-      .progress {
-        height: 100%;
-        width: 0%;
-        background: #4ecdc4;
-        transition: width 0.1s linear;
-      }
-
       @media (max-width: 768px) {
         .carousel-container {
           margin: 2rem 1rem;
@@ -169,18 +100,6 @@
 
         .carousel-track {
           height: 400px;
-        }
-
-        .slide-title {
-          font-size: 2rem;
-        }
-
-        .slide-text {
-          font-size: 1rem;
-        }
-
-        .cta-button {
-          padding: 12px 30px;
         }
 
         .carousel-control {
@@ -200,14 +119,6 @@
             class="carousel-image"
             alt="Mountain"
           />
-          <div class="slide-content">
-            <h1 class="slide-title">Explore the World</h1>
-            <p class="slide-text">
-              Discover breathtaking landscapes and create unforgettable
-              memories.
-            </p>
-            <button class="cta-button">Start Journey</button>
-          </div>
         </div>
         <div class="carousel-slide">
           <img
@@ -215,13 +126,6 @@
             class="carousel-image"
             alt="Beach"
           />
-          <div class="slide-content">
-            <h1 class="slide-title">Tropical Paradise</h1>
-            <p class="slide-text">
-              Relax on pristine beaches and soak up the sun in style.
-            </p>
-            <button class="cta-button">Book Now</button>
-          </div>
         </div>
         <div class="carousel-slide">
           <img
@@ -229,18 +133,7 @@
             class="carousel-image"
             alt="City"
           />
-          <div class="slide-content">
-            <h1 class="slide-title">Urban Adventure</h1>
-            <p class="slide-text">
-              Experience vibrant city life and modern architecture.
-            </p>
-            <button class="cta-button">Explore Cities</button>
-          </div>
         </div>
-      </div>
-
-      <div class="progress-bar">
-        <div class="progress"></div>
       </div>
 
       <button class="carousel-control prev">❮</button>
@@ -260,28 +153,17 @@
         const dots = document.querySelectorAll(".nav-dot");
         const prevBtn = document.querySelector(".prev");
         const nextBtn = document.querySelector(".next");
-        const progress = document.querySelector(".progress");
 
         let currentIndex = 0;
         let autoSlideInterval;
         const slideDuration = 6000;
 
-        // Initialize carousel
-        startAutoSlide();
-
-        // Navigation functions
         function goToSlide(index) {
           currentIndex = (index + slides.length) % slides.length;
           track.style.transform = `translateX(-${currentIndex * 100}%)`;
 
-          // Update active states
-          slides.forEach((slide) => slide.classList.remove("active"));
-          slides[currentIndex].classList.add("active");
-
           dots.forEach((dot) => dot.classList.remove("active"));
           dots[currentIndex].classList.add("active");
-
-          resetProgress();
         }
 
         function nextSlide() {
@@ -292,12 +174,8 @@
           goToSlide(currentIndex - 1);
         }
 
-        // Auto-slide functionality
         function startAutoSlide() {
           autoSlideInterval = setInterval(nextSlide, slideDuration);
-          progress.style.width = "0%";
-          progress.style.transition = `width ${slideDuration}ms linear`;
-          setTimeout(() => (progress.style.width = "100%"), 50);
         }
 
         function resetProgress() {
@@ -343,11 +221,8 @@
           { passive: true }
         );
 
-        // Pause on hover
-        track.addEventListener("mouseenter", () =>
-          clearInterval(autoSlideInterval)
-        );
-        track.addEventListener("mouseleave", startAutoSlide);
+        // Start auto-slide
+        startAutoSlide();
       });
     </script>
   </body>
