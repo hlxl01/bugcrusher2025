@@ -2,28 +2,21 @@
 <html>
   <style>
     .img-comp-container {
-      position: relative;
-      height: 400px; /* Match image height */
-      width: 750px; /* Match image width */
-      margin: 0 auto;
-    }
-    
-    .img-comp-img {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
-    
-    .img-comp-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .img-comp-overlay {
-      width: 50%; /* Initial overlay width */
-    }
+    position: relative;
+    height: 500px; /*should be the same height as the images*/
+  }
+  
+  .img-comp-img {
+    position: absolute;
+    width: auto;
+    height: auto;
+    overflow: hidden;
+  }
+  
+  .img-comp-img img {
+    display: block;
+    vertical-align: middle;
+  }
     
     .img-comp-slider {
       position: absolute;
