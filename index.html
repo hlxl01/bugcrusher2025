@@ -1,224 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+  <style>
+    .img-comp-container {
+      position: relative;
+      height: 500px; /*should be the same height as the images*/
+    }
+    
+    .img-comp-img {
+      position: absolute;
+      width: auto;
+      height: auto;
+      overflow: hidden;
+    }
+    
+    .img-comp-img img {
+      display: block;
+      vertical-align: middle;
+    }
+    
+    .img-comp-slider {
+      position: absolute;
+      z-index: 9;
+      cursor: ew-resize;
+      /*set the appearance of the slider:*/
+      width: 40px;
+      height: 40px;
+      background-color: #2196F3;
+      opacity: 0.7;
+      border-radius: 50%;
+    }
+  
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Minimal Carousel</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        background: #1a1a1a;
-        overflow-x: hidden;
-      }
-
-      .carousel-container {
-        position: relative;
-        width: 100%;
-        margin: 0 auto;
-        overflow: hidden;
-      }
-
-      .carousel-track {
-        display: flex;
-        height: 600px;
-        transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      }
-
-      .carousel-slide {
-        min-width: 100%;
-        position: relative;
-      }
-
-      .carousel-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      .carousel-nav {
-        position: absolute;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        gap: 15px;
-      }
-
-      .nav-dot {
-        width: 15px;
-        height: 15px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.4);
-        cursor: pointer;
-        transition: all 0.3s;
-      }
-
-      .nav-dot.active {
-        background: #4ecdc4;
-        transform: scale(1.3);
-      }
-
-      .carousel-control {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.1);
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        color: white;
-        font-size: 1.5rem;
-        cursor: pointer;
-        transition: all 0.3s;
-        backdrop-filter: blur(5px);
-      }
-
-      .carousel-control:hover {
-        background: rgba(255, 255, 255, 0.2);
-        transform: translateY(-50%) scale(1.1);
-      }
-
-      .prev {
-        left: 30px;
-      }
-
-      .next {
-        right: 30px;
-      }
-
-      @media (max-width: 768px) {
-        .carousel-track {
-          height: 400px;
-        }
-
-        .carousel-control {
-          width: 40px;
-          height: 40px;
-          font-size: 1.2rem;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
   </head>
   <body>
-    <div class="carousel-container">
-      <div class="carousel-track">
-        <div class="carousel-slide active">
-          <img
-            src="https://media.licdn.com/dms/image/v2/D4D12AQFDvhSDqa5OOw/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1685121284556?e=2147483647&v=beta&t=GNqvFA10bBpgImTWcjco1MZ-QH8LZVpGwpl1Cpmlz-0"
-            class="carousel-image"
-            alt="Mountain"
-          />
-        </div>
-        <div class="carousel-slide">
-          <img
-            src="https://knowledgeumacademy.in/theme/assets/images/blog/essential-visibility/11.jpg"
-            class="carousel-image"
-            alt="Beach"
-          />
-        </div>
-        <div class="carousel-slide">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqLG1XClgMCBid3Qf-G_QVWsonydckUE8Xag&s"
-            class="carousel-image"
-            alt="City"
-          />
-        </div>
+    <div class="img-comp-container">
+      <div class="img-comp-img">
+        <img src="sad.webp" width="750" height="400">
       </div>
-
-      <button class="carousel-control prev">❮</button>
-      <button class="carousel-control next">❯</button>
-
-      <div class="carousel-nav">
-        <div class="nav-dot active"></div>
-        <div class="nav-dot"></div>
-        <div class="nav-dot"></div>
+      <div class="img-comp-img img-comp-overlay">
+        <img src="happy.webp" width="750" height="400">
       </div>
     </div>
-
+  
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const track = document.querySelector(".carousel-track");
-        const slides = document.querySelectorAll(".carousel-slide");
-        const dots = document.querySelectorAll(".nav-dot");
-        const prevBtn = document.querySelector(".prev");
-        const nextBtn = document.querySelector(".next");
-
-        let currentIndex = 0;
-        let autoSlideInterval;
-        const slideDuration = 6000;
-
-        function goToSlide(index) {
-          currentIndex = (index + slides.length) % slides.length;
-          track.style.transform = `translateX(-${currentIndex * 100}%)`;
-
-          dots.forEach((dot) => dot.classList.remove("active"));
-          dots[currentIndex].classList.add("active");
-        }
-
-        function nextSlide() {
-          goToSlide(currentIndex + 1);
-        }
-
-        function prevSlide() {
-          goToSlide(currentIndex - 1);
-        }
-
-        function startAutoSlide() {
-          autoSlideInterval = setInterval(nextSlide, slideDuration);
-        }
-
-        function resetProgress() {
-          clearInterval(autoSlideInterval);
-          startAutoSlide();
-        }
-
-        // Event listeners
-        prevBtn.addEventListener("click", prevSlide);
-        nextBtn.addEventListener("click", nextSlide);
-
-        dots.forEach((dot, index) => {
-          dot.addEventListener("click", () => goToSlide(index));
-        });
-
-        // Keyboard navigation
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "ArrowRight") nextSlide();
-          if (e.key === "ArrowLeft") prevSlide();
-        });
-
-        // Touch swipe support
-        let touchStartX = 0;
-        track.addEventListener(
-          "touchstart",
-          (e) => {
-            touchStartX = e.touches[0].clientX;
-            clearInterval(autoSlideInterval);
-          },
-          { passive: true }
-        );
-
-        track.addEventListener(
-          "touchend",
-          (e) => {
-            const touchEndX = e.changedTouches[0].clientX;
-            const diff = touchStartX - touchEndX;
-            if (Math.abs(diff) > 50) {
-              diff > 0 ? nextSlide() : prevSlide();
-            }
-            startAutoSlide();
-          },
-          { passive: true }
-        );
-
-        // Start auto-slide
-        startAutoSlide();
-      });
+      initComparisons();
     </script>
   </body>
-</html>
